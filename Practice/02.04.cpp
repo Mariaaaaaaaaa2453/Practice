@@ -1,170 +1,171 @@
+никсик💖, [24. 4. 2024, 09:16:50]:
 #include <iostream>
 #include <string>
 
 using namespace std;
 
-class Animal {
+// Base class for all animal types
+class BaseCreature {
 protected:
-    string name;
-    double weight;
-    string continent;
+    string _identifier;
+    double _weightKg;
+    string _nativeRegion;
 
 public:
-    Animal(string name, double weight,string continent)
-        : name(name), weight(weight), continent(continent) {}
+    BaseCreature(string id, double weight, string region)
+        : _identifier(id), _weightKg(weight), _nativeRegion(region) {}
 
-    virtual void Eat() = 0;
-    virtual void Sleep() = 0;
-    virtual void Move() = 0;
-    virtual void MakeSound() = 0;
+    virtual void consumeFood() = 0;
+    virtual void restMode() = 0;
+    virtual void navigate() = 0;
+    virtual void communicate() = 0;
 };
 
-class ISwimable {
+// Interfaces for different behaviors
+class IWaterActivity {
 public:
-    virtual void Swim() = 0;
+    virtual void swim() = 0;
 };
 
-class IFlyable {
+class IAirActivity {
 public:
-    virtual void Fly() = 0;
-};
-class Cat : public Animal {
-public:
-    Cat(string name, double weight, const string continent)
-        : Animal(name, weight, continent) {}
-
-    void Eat() override {
-        cout << name << " eats fish" << endl;
-    }
-
-    void Sleep() override {
-        cout << name << " sleeps curled up" << endl;
-    }
-
-    void Move() override {
-        cout << name << " moves stealthily" << endl;
-    }
-
-    void MakeSound() override {
-        cout << name << " meows" << endl;
-    }
+    virtual void fly() = 0;
 };
 
-class Dog : public Animal, public ISwimable {
+// Specific classes implementing the behaviors
+class CatSpecies : public BaseCreature {
 public:
-    Dog(const string& _name, double _weight, const string& _continent)
-        : Animal(_name, _weight, _continent) {}
+    CatSpecies(string id, double weight, string region)
+        : BaseCreature(id, weight, region) {}
 
-    void Eat() override {
-        cout << name << " eats bones" << endl;
+    void consumeFood() override {
+        cout << _identifier << " consumes a mouse." << endl;
     }
 
-    void Sleep() override {
-        cout << name << " sleeps on the floor" << endl;
+    void restMode() override {
+        cout << _identifier << " lies in the sun." << endl;
     }
 
-    void Move() override {
-        cout << name << " runs around" << endl;
+    void navigate() override {
+        cout << _identifier << " stalks its territory." << endl;
     }
 
-    void MakeSound() override {
-        cout << name << " barks" << endl;
-    }
-
-    void Swim() override {
-        cout << name << " swims in the water" << endl;
+    void communicate() override {
+        cout << _identifier << " purrs contentedly." << endl;
     }
 };
 
-class Parrot : public Animal, public IFlyable {
+class DogSpecies : public BaseCreature, public IWaterActivity {
 public:
-    Parrot(string name, double weight, string continent)
-        : Animal(name, weight, continent) {}
+    DogSpecies(string id, double weight, string region)
+        : BaseCreature(id, weight, region) {}
 
-    void Eat() override {
-        cout << name << " eats seeds" << endl;
+    void consumeFood() override {
+        cout << _identifier << " devours a large bone." << endl;
     }
 
-    void Sleep() override {
-        cout << name << " sleeps on a perch" << endl;
+    void restMode() override {
+        cout << _identifier << " sleeps in its kennel." << endl;
     }
 
-    void Move() override {
-        cout << name << " flies from branch to branch" << endl;
+    void navigate() override {
+        cout << _identifier << " patrols the yard." << endl;
     }
 
-    void MakeSound() override {
-        cout << name << " squawks" << endl;
+    void communicate() override {
+        cout << _identifier << " barks at a passerby." << endl;
     }
 
-    void Fly() override {
-        cout << name << " flies in the sky" << endl;
+    void swim() override {
+        cout << _identifier << " enjoys a dip in the lake." << endl;
     }
 };
 
-class Duck : public Animal, public ISwimable, public IFlyable {
+class BirdSpecies : public BaseCreature, public IAirActivity {
 public:
-    Duck(string name, double weight, string continent)
-        : Animal(name, weight, continent) {}
+    BirdSpecies(string id, double weight, string region)
+        : BaseCreature(id, weight, region) {}
 
-    void Eat() override {
-        cout << name << " eats insects and plants" << endl;
+    void consumeFood() override {
+        cout << _identifier << " pecks at a piece of fruit." << endl;
     }
 
-    void Sleep() override {
-        cout << name << " sleeps near the water" << endl;
+    void restMode() override {
+        cout << _identifier << " nests in a high tree." << endl;
     }
 
-    void Move() override {
-        cout << name << " swims and flies" << endl;
+    void navigate() override {
+        cout << _identifier << " hops along the branch." << endl;
     }
 
-    void MakeSound() override {
-        cout << name << " quacks" << endl;
+    void communicate() override {
+        cout << _identifier << " sings a morning song." << endl;
     }
 
-    void Swim() override {
-        cout << name << " swims in the pond" << endl;
+    void fly() override {
+        cout << _identifier << " glides across the sky." << endl;
+    }
+};
+
+class WaterfowlSpecies : public BaseCreature, public IWaterActivity, public IAirActivity {
+public:
+    WaterfowlSpecies(string id, double weight, string region)
+        : BaseCreature(id, weight, region) {}
+
+    void consumeFood() override {
+        cout << _identifier << " digs for worms near the pond." << endl;
     }
 
-    void Fly() override {
-        cout << name << " flies over the water" << endl;
+    void restMode() override {
+        cout << _identifier << " rests on one leg at the water's edge." << endl;
+    }
+
+    void navigate() override {
+        cout << _identifier << " wades through shallow waters." << endl;
+    }
+
+    void communicate() override {
+        cout << _identifier << " quacks during the early hours." << endl;
+    }
+
+    void swim() override {
+        cout << _identifier << " paddles smoothly in the water." << endl;
+    }
+
+    void fly() override {
+        cout << _identifier << " takes off from the pond with ease." << endl;
     }
 };
 
 int main() {
-    Cat cat("Whiskers", 5.0, "Europe");
-    Dog dog("Buddy", 10.0, "North America");
-    Parrot parrot("Polly", 0.5, "South America");
-    Duck duck("Donald", 2.0, "North America");
+    CatSpecies cat("Milo", 4.2, "Urban areas");
+    DogSpecies dog("Max", 20.5, "Rural areas");
+    BirdSpecies parrot("Charlie", 0.9, "Tropical forests");
+    WaterfowlSpecies duck("Daisy", 3.5, "Lakes and rivers");
 
-    cout << "-- Cat --" << endl;
-    cat.Eat();
-    cat.Sleep();
-    cat.Move();
-    cat.MakeSound();
+    cat.consumeFood();
+    cat.restMode();
+    cat.navigate();
+    cat.communicate();
 
-    cout << "-- Dog --" << endl;
-    dog.Eat();
-    dog.Sleep();
-    dog.Move();
-    dog.MakeSound();
-    dog.Swim();
+    dog.consumeFood();
+    dog.restMode();
+    dog.navigate();
+    dog.communicate();
+    dog.swim();
 
-    cout << "-- Parrot --" << endl;
-    parrot.Eat();
-    parrot.Sleep();
-    parrot.Move();
-    parrot.MakeSound();
-    parrot.Fly();
+    parrot.consumeFood();
+    parrot.restMode();
+    parrot.navigate();
+    parrot.communicate();
+    parrot.fly();
 
-    cout << "-- Duck --" << endl;
-    duck.Eat();
-    duck.Sleep();
-    duck.Move();
-    duck.MakeSound();
-    duck.Swim();
-    duck.Fly();
+duck.consumeFood();
+    duck.restMode();
+    duck.navigate();
+    duck.communicate();
+    duck.swim();
+    duck.fly();
 
     return 0;
 }
